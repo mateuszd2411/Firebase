@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                         hashMap.put("CarName",imageName);
                         hashMap.put("ImageUrl",uri.toString());
 
-                        dataRef.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        dataRef.child(key).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(MainActivity.this, "Data Successfully Uploaded!", Toast.LENGTH_SHORT).show();
@@ -120,11 +120,6 @@ public class MainActivity extends AppCompatActivity {
                 textViewProgress.setText(progress + " %");
             }
         });
-    }
-
-    @Override
-    public boolean showAssist(Bundle args) {
-        return super.showAssist(args);
     }
 
     @Override
