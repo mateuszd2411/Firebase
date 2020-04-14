@@ -17,11 +17,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button btnave;
-    StorageReference reference;
+    StorageReference ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,48 +31,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btnave = findViewById(R.id.btn);
 
-        reference = FirebaseStorage.getInstance().getReference().child("Document");
-
+        ref = FirebaseStorage.getInstance().getReference().child("Image");
         btnave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //// put text
-                String data = "This is my data";
-                reference.child("file.txt").putBytes(data.getBytes()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(MainActivity.this, "File upload Successfully!", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                ///put text
-
-                ///put image
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.image);
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-
-                reference.child("image.jpg").putBytes(byteArrayOutputStream.toByteArray()).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(MainActivity.this, "File upload Successfully!", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-                ///put image
+                InputStream inputStream = null;
+                try {
+                    inputStream = getAssets().open("image.jpg");
+                    uploadImage(inputStream);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
 
 
+    }
+
+    private void uploadImage(InputStream inputStream) {
+        if (inputStream != null){
+            ref.child("myImage.jpg").putStream(inputStream).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(MainActivity.this, "Image uploaded Successfully!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
