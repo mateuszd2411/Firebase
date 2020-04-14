@@ -1,10 +1,13 @@
 package com.mat.firebase;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import java.io.InputStream;
 public class MainActivity extends AppCompatActivity {
 
     private Button btnave;
+    private static final int REQUEST_CODE_IMAGE = 101;
     StorageReference ref;
 
     @Override
@@ -31,33 +35,32 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btnave = findViewById(R.id.btn);
 
-        ref = FirebaseStorage.getInstance().getReference().child("Image");
+        ref = FirebaseStorage.getInstance().getReference().child("Images");
         btnave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                InputStream inputStream = null;
-                try {
-                    inputStream = getAssets().open("image.jpg");
-                    uploadImage(inputStream);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent,REQUEST_CODE_IMAGE);
             }
         });
 
-
     }
 
-    private void uploadImage(InputStream inputStream) {
-        if (inputStream != null){
-            ref.child("myImage.jpg").putStream(inputStream).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_IMAGE && data != null){
+
+            Uri uri = data.getData();
+            ref.child("image.jpg").putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(MainActivity.this, "Image uploaded Successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Image successfully uploaded", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
     }
 }
