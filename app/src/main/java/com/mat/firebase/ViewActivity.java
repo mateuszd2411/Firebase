@@ -3,16 +3,21 @@ package com.mat.firebase;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 public class ViewActivity extends AppCompatActivity {
@@ -21,7 +26,8 @@ public class ViewActivity extends AppCompatActivity {
     TextView textView;
     Button btnDelete;
 
-    DatabaseReference ref;
+    DatabaseReference ref,dataRef;
+    StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,8 @@ public class ViewActivity extends AppCompatActivity {
         ref = FirebaseDatabase.getInstance().getReference().child("Car");
 
         String CarKey = getIntent().getStringExtra("CarKey");
+        dataRef = FirebaseDatabase.getInstance().getReference().child("Car").child(CarKey);
+        storageReference = FirebaseStorage.getInstance().getReference().child("CarImage").child(CarKey + ".jpg");
 
         ref.child(CarKey).addValueEventListener(new ValueEventListener() {
             @Override
@@ -49,6 +57,25 @@ public class ViewActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dataRef.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                            }
+                        });
+                    }
+                });
 
             }
         });
