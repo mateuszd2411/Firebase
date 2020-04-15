@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
     NavigationView nav_view;
+    RecyclerView noteList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        noteList = findViewById(R.id.notelist);
 
         drawerLayout = findViewById(R.id.drawer);
         nav_view = findViewById(R.id.nav_view);
