@@ -175,4 +175,18 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         return  colorCode.get(number);
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        noteAdapter.startListening();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (noteAdapter != null){
+            noteAdapter.stopListening();
+        }
+    }
 }
