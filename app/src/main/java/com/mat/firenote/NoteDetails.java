@@ -45,6 +45,7 @@ public class NoteDetails extends AppCompatActivity {
                 Intent i = new Intent(view.getContext(),EditNote.class);
                 i.putExtra("title",data.getStringExtra("title"));
                 i.putExtra("content",data.getStringExtra("content"));
+                i.putExtra("noteId",data.getStringExtra("noteId"));
                 startActivity(i);
 
             }
