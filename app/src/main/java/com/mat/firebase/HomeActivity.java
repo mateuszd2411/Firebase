@@ -32,12 +32,15 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<CarModel,MyViewHolder> adapter;
     private DatabaseReference dataRef;
 
+    private String folderCarRdatabase = "Car";
+    private String folderCarNameRdatabase = "CarName";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        dataRef = FirebaseDatabase.getInstance().getReference().child("Car");
+        dataRef = FirebaseDatabase.getInstance().getReference().child(folderCarRdatabase);
         inputSearch = findViewById(R.id.inputSearch);
         recyclerView = findViewById(R.id.recyclerView);
         floatingBtn = findViewById(R.id.floatingbtn);
@@ -79,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void LoadData(String data) {
 
-        Query query = dataRef.orderByChild("CarName").startAt(data).endAt(data + "\uf8ff");
+        Query query = dataRef.orderByChild(folderCarNameRdatabase).startAt(data).endAt(data + "\uf8ff");
 
         options = new FirebaseRecyclerOptions.Builder<CarModel>().setQuery(query,CarModel.class).build();
         adapter = new FirebaseRecyclerAdapter<CarModel, MyViewHolder>(options) {

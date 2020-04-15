@@ -16,15 +16,8 @@ public class CarModel {
         return CarName;
     }
 
-    public void setCarName(String carName) {
-        CarName = carName;
-    }
-
     public String getImageUrl() {
         return ImageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        ImageUrl = imageUrl;
-    }
 }
