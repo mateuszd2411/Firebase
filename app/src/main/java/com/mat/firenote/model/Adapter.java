@@ -36,7 +36,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.noteTitle.setText(titles.get(position));
         holder.noteContent.setText(content.get(position));
         holder.mCardView.setCardBackgroundColor(holder.view.getResources().getColor(getRandomColor(),null));
@@ -45,6 +45,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(view.getContext(), NoteDetails.class);
+                i.putExtra("title",titles.get(position));
+                i.putExtra("content",content.get(position));
                 view.getContext().startActivity(i);
             }
         });
