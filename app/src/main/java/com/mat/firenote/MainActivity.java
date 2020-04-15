@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.mat.firenote.model.Adapter;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     NavigationView nav_view;
     RecyclerView noteList;
     Adapter adapter;
+    FirebaseFirestore fStore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,12 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        fStore = FirebaseFirestore.getInstance();
+
+        Query query = fStore.collection("notes").orderBy("title",Query.Direction.DESCENDING);
+
+
 
         noteList = findViewById(R.id.notelist);
 
