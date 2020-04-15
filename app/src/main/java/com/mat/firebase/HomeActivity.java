@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity {
@@ -48,13 +51,37 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        LoadData();
+        LoadData("");
+
+        inputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (editable.toString() != null){
+                    LoadData(editable.toString());
+                }else {
+                    LoadData("");
+                }
+            }
+        });
 
     }
 
-    private void LoadData() {
+    private void LoadData(String data) {
 
-        options = new FirebaseRecyclerOptions.Builder<CarModel>().setQuery(dataRef,CarModel.class).build();
+        Query query = dataRef.orderByChild("CarName").startAt(data).endAt(data + "\uf8ff");
+
+        options = new FirebaseRecyclerOptions.Builder<CarModel>().setQuery(query,CarModel.class).build();
         adapter = new FirebaseRecyclerAdapter<CarModel, MyViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull MyViewHolder holder, final int position, @NonNull CarModel carModel) {
