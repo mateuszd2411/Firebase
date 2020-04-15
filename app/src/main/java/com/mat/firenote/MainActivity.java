@@ -5,7 +5,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +16,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.mat.firenote.model.Adapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener{
 
@@ -21,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     ActionBarDrawerToggle toggle;
     NavigationView nav_view;
     RecyclerView noteList;
+    Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +46,25 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
         toggle.syncState();
+
+        List<String> titles = new ArrayList<>();
+        List<String> content = new ArrayList<>();
+
+        ///example
+        titles.add("First Note Title");
+        content.add("First Note Content");
+
+        titles.add("Second Note Title");
+        content.add("Second Note Content");
+
+        titles.add("Third Note Title");
+        content.add("Third Note Content");
+        ///example
+
+        adapter = new Adapter(titles,content);
+        noteList.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        noteList.setAdapter(adapter);
+
     }
 
     @Override
