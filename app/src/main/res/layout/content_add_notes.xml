@@ -9,7 +9,7 @@
     tools:showIn="@layout/activity_add_notes">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/addNoteContent"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -20,7 +20,7 @@
         android:gravity="start|top"
         android:hint="Write Your Note Here..."
         android:inputType="textMultiLine"
-        android:textColor="#00000000"
+        android:textColor="@color/common_google_signin_btn_text_dark_focused"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

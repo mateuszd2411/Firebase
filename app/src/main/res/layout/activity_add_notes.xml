@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
                 android:ems="10"
-                android:hint="<Untitled>"
+                android:hint="Untitled"
                 android:textColor="#FFF"
                 android:textColorHint="#FFF"
                 android:textStyle="bold" />
