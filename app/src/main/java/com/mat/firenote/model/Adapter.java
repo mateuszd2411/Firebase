@@ -1,5 +1,6 @@
 package com.mat.firenote.model;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mat.firenote.NoteDetails;
 import com.mat.firenote.R;
 
 import java.util.ArrayList;
@@ -42,7 +44,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), "The Item is clicked", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(view.getContext(), NoteDetails.class);
+                view.getContext().startActivity(i);
             }
         });
     }
