@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.mat.firenote.model.Adapter;
 
@@ -64,6 +66,14 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         adapter = new Adapter(titles,content);
         noteList.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         noteList.setAdapter(adapter);
+
+        FloatingActionButton fab = findViewById(R.id.addNoteFloat);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), AddNote.class));
+            }
+        });
 
     }
 
