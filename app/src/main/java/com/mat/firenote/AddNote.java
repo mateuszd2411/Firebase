@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class AddNote extends AppCompatActivity {
 
     FirebaseFirestore fStore;
     EditText noteTitle,noteContent;
+    ProgressBar progressBarSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class AddNote extends AppCompatActivity {
         noteContent = findViewById(R.id.addNoteContent);
         noteTitle = findViewById(R.id.addNoteTitle);
 
-        
+        progressBarSave = findViewById(R.id.progressBar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +51,8 @@ public class AddNote extends AppCompatActivity {
                     Toast.makeText(AddNote.this, "Can not Save note with Empty Field", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                progressBarSave.setVisibility(View.VISIBLE);
 
                 ///save note
 
@@ -67,6 +71,7 @@ public class AddNote extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(AddNote.this, "Error", Toast.LENGTH_SHORT).show();
+                        progressBarSave.setVisibility(View.VISIBLE);
                     }
                 });
 
