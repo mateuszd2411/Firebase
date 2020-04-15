@@ -1,5 +1,6 @@
 package com.mat.firenote;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -24,9 +25,14 @@ public class NoteDetails extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Intent data = getIntent();
+
         TextView content = findViewById(R.id.noteDetailsContent);
         TextView title = findViewById(R.id.noteDetailsTitle);
         content.setMovementMethod(new ScrollingMovementMethod());
+
+        content.setText(data.getStringExtra("content"));
+        title.setText(data.getStringExtra("title"));
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
