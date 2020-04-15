@@ -100,20 +100,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         List<String> titles = new ArrayList<>();
         List<String> content = new ArrayList<>();
 
-        ///example
-        titles.add("First Note Title");
-        content.add("First Note Content");
-
-        titles.add("Second Note Title");
-        content.add("Second Note Content");
-
-        titles.add("Third Note Title");
-        content.add("Third Note Content");
-        ///example
-
-        adapter = new Adapter(titles,content);
         noteList.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-        noteList.setAdapter(adapter);
+        noteList.setAdapter(noteAdapter);
 
         FloatingActionButton fab = findViewById(R.id.addNoteFloat);
         fab.setOnClickListener(new View.OnClickListener() {
