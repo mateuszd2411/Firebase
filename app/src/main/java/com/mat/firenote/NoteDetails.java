@@ -9,8 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class NoteDetails extends AppCompatActivity {
 
@@ -21,6 +23,10 @@ public class NoteDetails extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        TextView content = findViewById(R.id.noteDetailsContent);
+        TextView title = findViewById(R.id.noteDetailsTitle);
+        content.setMovementMethod(new ScrollingMovementMethod());
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
