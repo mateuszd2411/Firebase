@@ -57,10 +57,18 @@ public class HomeActivity extends AppCompatActivity {
         options = new FirebaseRecyclerOptions.Builder<CarModel>().setQuery(dataRef,CarModel.class).build();
         adapter = new FirebaseRecyclerAdapter<CarModel, MyViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull CarModel carModel) {
+            protected void onBindViewHolder(@NonNull MyViewHolder holder, final int position, @NonNull CarModel carModel) {
 
                 holder.textView.setText(carModel.getCarName());
                 Picasso.get().load(carModel.getImageUrl()).into(holder.imageView);
+                holder.v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(HomeActivity.this,ViewActivity.class);
+                        intent.putExtra("CarKey",getRef(position).getKey());
+                        startActivity(intent);
+                    }
+                });
             }
 
             @NonNull
