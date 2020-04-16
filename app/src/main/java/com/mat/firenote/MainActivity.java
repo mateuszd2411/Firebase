@@ -2,6 +2,7 @@ package com.mat.firenote;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -9,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -29,9 +31,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.mat.firenote.auth.Register;
 import com.mat.firenote.model.Adapter;
 import com.mat.firenote.model.Note;
 import com.mat.firenote.note.AddNote;
@@ -174,10 +178,41 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                 startActivity(new Intent(this, AddNote.class));
                 break;
 
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                checkUser();
+
             default:
                 Toast.makeText(this, "Coming soon.", Toast.LENGTH_SHORT).show();
         }
         return false;
+    }
+
+    private void checkUser() {
+        // if user is real or not
+        if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous()){
+            displayAlert();
+        }else {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(getApplicationContext(),Splash.class));
+        }
+    }
+
+    private void displayAlert() {
+        AlertDialog.Builder warring = new AlertDialog.Builder()
+                .setTitle("Are yo sure?")
+                .setMessage("You are logged in with Temporary Account. Logging out will Delete All the notes.")
+                .setPositiveButton("Sync Note", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(getApplicationContext(), Register.class));
+                    }
+                }).setNegativeButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
     }
 
     @Override
