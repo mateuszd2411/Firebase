@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.mat.firenote.MainActivity;
 import com.mat.firenote.R;
 
@@ -24,6 +27,8 @@ public class Login extends AppCompatActivity {
     Button loginNow;
     TextView forgetPass,createAcc;
     FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +42,13 @@ public class Login extends AppCompatActivity {
         lPassword = findViewById(R.id.lPassword);
         loginNow = findViewById(R.id.loginBtn);
 
+        spinner = findViewById(R.id.progressBar3);
+
         forgetPass = findViewById(R.id.forgotPasword);
         createAcc = findViewById(R.id.createAccount);
 
         fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         loginNow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +59,31 @@ public class Login extends AppCompatActivity {
                 if (mEmail.isEmpty() || mPassword.isEmpty()){
                     Toast.makeText(Login.this, "Fields Are Required", Toast.LENGTH_SHORT).show();
                     return;
+                }
+
+                // delete notes first
+
+                spinner.setVisibility(View.VISIBLE);
+
+                if (fAuth.getCurrentUser().isAnonymous()){
+                    FirebaseUser user = fAuth.getCurrentUser();
+
+                    fStore.collection("notes").document(user.getUid()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(Login.this, "All Temp Notes are Deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    // delete Temp user
+
+                    user.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(Login.this, "Temp user Deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
 
                 fAuth.signInWithEmailAndPassword(mEmail,mPassword).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -64,6 +97,7 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(Login.this, "Login Failed. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        spinner.setVisibility(View.GONE);
                     }
                 });
 

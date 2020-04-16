@@ -73,6 +73,8 @@ public class Register extends AppCompatActivity {
                     rUserConfPass.setError("Password Do not Match");
                 }
 
+                progressBar.setVisibility(View.VISIBLE);
+
                 AuthCredential credential = EmailAuthProvider.getCredential(uUserEmail,uUserPass);
                 fAuth.getCurrentUser().linkWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                     @Override
@@ -84,6 +86,7 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(Register.this, "Failed to Connect. Try Again", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
                     }
                 });
 
