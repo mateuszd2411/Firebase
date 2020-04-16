@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -32,6 +33,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -55,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     Adapter adapter;
     FirebaseFirestore fStore;
     FirestoreRecyclerAdapter<Note,NoteViewHolder> noteAdapter;
+    FirebaseUser user;
+    FirebaseAuth fAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         setSupportActionBar(toolbar);
 
         fStore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        user = fAuth.getCurrentUser();
 
         Query query = fStore.collection("notes").orderBy("title",Query.Direction.DESCENDING);
 
@@ -173,14 +179,15 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        drawerLayout.closeDrawer(GravityCompat.START);
         switch (item.getItemId()){
             case R.id.addNote:
                 startActivity(new Intent(this, AddNote.class));
                 break;
 
             case R.id.logout:
-                FirebaseAuth.getInstance().signOut();
                 checkUser();
+                break;
 
             default:
                 Toast.makeText(this, "Coming soon.", Toast.LENGTH_SHORT).show();
@@ -190,16 +197,17 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
     private void checkUser() {
         // if user is real or not
-        if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous()){
+        if (user.isAnonymous()){
             displayAlert();
         }else {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(),Splash.class));
+            finish();
         }
     }
 
     private void displayAlert() {
-        AlertDialog.Builder warring = new AlertDialog.Builder()
+        AlertDialog.Builder warring = new AlertDialog.Builder(this)
                 .setTitle("Are yo sure?")
                 .setMessage("You are logged in with Temporary Account. Logging out will Delete All the notes.")
                 .setPositiveButton("Sync Note", new DialogInterface.OnClickListener() {
@@ -210,9 +218,23 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                 }).setNegativeButton("Logout", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        // ToDo delete all the note created by the Anon user
+
+
+
+                        // ToDo delete the Anon user
+
+                        user.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                startActivity(new Intent(getApplicationContext(),Splash.class));
+                                finish();
+                            }
+                        });
 
                     }
                 });
+        warring.show();
     }
 
     @Override
