@@ -37,6 +37,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.mat.firenote.auth.Login;
 import com.mat.firenote.auth.Register;
 import com.mat.firenote.model.Adapter;
 import com.mat.firenote.model.Note;
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
             case R.id.sync:
                 if (user.isAnonymous()){
-                    startActivity(new Intent(this,Register.class));
+                    startActivity(new Intent(this, Login.class));
                 }else {
                     Toast.makeText(this, "You Are Connected", Toast.LENGTH_SHORT).show();
                 }
