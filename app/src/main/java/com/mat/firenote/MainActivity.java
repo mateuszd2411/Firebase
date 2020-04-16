@@ -34,6 +34,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.mat.firenote.model.Adapter;
 import com.mat.firenote.model.Note;
+import com.mat.firenote.note.AddNote;
+import com.mat.firenote.note.EditNote;
+import com.mat.firenote.note.NoteDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                         menu.getMenu().add("Edit").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
-                                Intent i = new Intent(view.getContext(),EditNote.class);
+                                Intent i = new Intent(view.getContext(), EditNote.class);
                                 i.putExtra("title",note.getTitle());
                                 i.putExtra("content",note.getContent());
                                 i.putExtra("noteId",docId);

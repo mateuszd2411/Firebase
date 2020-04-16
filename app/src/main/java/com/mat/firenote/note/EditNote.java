@@ -1,4 +1,4 @@
-package com.mat.firenote;
+package com.mat.firenote.note;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.mat.firenote.MainActivity;
+import com.mat.firenote.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,7 +78,7 @@ public class EditNote extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(EditNote.this, "Note Update", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
