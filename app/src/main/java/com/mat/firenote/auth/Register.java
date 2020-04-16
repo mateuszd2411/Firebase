@@ -81,6 +81,7 @@ public class Register extends AppCompatActivity {
                     public void onSuccess(AuthResult authResult) {
                         Toast.makeText(Register.this, "Notes are Synced", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                        finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

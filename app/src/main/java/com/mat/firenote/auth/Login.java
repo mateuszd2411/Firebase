@@ -1,8 +1,10 @@
 package com.mat.firenote.auth;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.mat.firenote.MainActivity;
 import com.mat.firenote.R;
+import com.mat.firenote.Splash;
 
 public class Login extends AppCompatActivity {
 
@@ -49,6 +52,8 @@ public class Login extends AppCompatActivity {
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+
+        showWarning();
 
         loginNow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,5 +110,24 @@ public class Login extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void showWarning() {
+        AlertDialog.Builder warring = new AlertDialog.Builder(this)
+                .setTitle("Are yo sure?")
+                .setMessage("Linking Existing Account Will delete all temp notes. Create New Account To save them")
+                .setPositiveButton("Save Note", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(getApplicationContext(), Register.class));
+                        finish();
+                    }
+                }).setNegativeButton("Its OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        warring.show();
     }
 }
