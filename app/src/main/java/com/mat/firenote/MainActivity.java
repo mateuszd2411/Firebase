@@ -168,6 +168,13 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         noteList.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         noteList.setAdapter(noteAdapter);
 
+        View headerView = nav_view.getHeaderView(0);
+        TextView username = headerView.findViewById(R.id.userDisplayName);
+        TextView userEmail = headerView.findViewById(R.id.userDisplayEmail);
+        userEmail.setText(user.getEmail());
+        username.setText(user.getDisplayName());
+
+
         FloatingActionButton fab = findViewById(R.id.addNoteFloat);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
