@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(view.getContext(), AddNote.class));
+                overridePendingTransition(R.anim.slide_up,R.anim.slide_up);
             }
         });
 
@@ -197,11 +198,14 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         switch (item.getItemId()){
             case R.id.addNote:
                 startActivity(new Intent(this, AddNote.class));
+                overridePendingTransition(R.anim.slide_up,R.anim.slide_up);
                 break;
 
             case R.id.sync:
                 if (user.isAnonymous()){
                     startActivity(new Intent(this, Login.class));
+                    overridePendingTransition(R.anim.slide_up,R.anim.slide_up);
+
                 }else {
                     Toast.makeText(this, "You Are Connected", Toast.LENGTH_SHORT).show();
                 }
@@ -224,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         }else {
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(getApplicationContext(),Splash.class));
+            overridePendingTransition(R.anim.slide_up,R.anim.slide_up);
             finish();
         }
     }
@@ -236,6 +241,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         startActivity(new Intent(getApplicationContext(), Register.class));
+                        overridePendingTransition(R.anim.slide_up,R.anim.slide_up);
                     }
                 }).setNegativeButton("Logout", new DialogInterface.OnClickListener() {
                     @Override
@@ -250,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                             @Override
                             public void onSuccess(Void aVoid) {
                                 startActivity(new Intent(getApplicationContext(),Splash.class));
-                                finish();
+                                overridePendingTransition(R.anim.slide_up,R.anim.slide_up);
                             }
                         });
 

@@ -92,6 +92,8 @@ public class Register extends AppCompatActivity {
 
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));     ///restart activity for show username in drawer
 
+                        overridePendingTransition(R.anim.slide_up,R.anim.slide_up);
+                        finish();
 
 
 
