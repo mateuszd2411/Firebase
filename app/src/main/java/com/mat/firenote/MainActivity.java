@@ -171,8 +171,14 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         View headerView = nav_view.getHeaderView(0);
         TextView username = headerView.findViewById(R.id.userDisplayName);
         TextView userEmail = headerView.findViewById(R.id.userDisplayEmail);
-        userEmail.setText(user.getEmail());
-        username.setText(user.getDisplayName());
+
+        if (user.isAnonymous()){
+            userEmail.setVisibility(View.GONE);
+            username.setText("Temporary User");
+        }else {
+            userEmail.setText(user.getEmail());
+            username.setText(user.getDisplayName());
+        }
 
 
         FloatingActionButton fab = findViewById(R.id.addNoteFloat);

@@ -66,7 +66,7 @@ public class Register extends AppCompatActivity {
                 String uUserPass = rUserPass.getText().toString();
                 String uConfPass = rUserConfPass.getText().toString();
 
-                if (!uUserEmail.isEmpty() || uUserName.isEmpty() || uUserPass.isEmpty() || uConfPass.isEmpty()){
+                if (uUserEmail.isEmpty() || uUserName.isEmpty() || uUserPass.isEmpty() || uConfPass.isEmpty()){
                     Toast.makeText(Register.this, "All Fields Are Required", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -89,6 +89,11 @@ public class Register extends AppCompatActivity {
                                 .setDisplayName(uUserName)
                                 .build();
                         usr.updateProfile(request);
+
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));     ///restart activity for show username in drawer
+
+
+
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
